@@ -1,2 +1,2 @@
 # TD6_TP1_AI
- Las chicas super poderoas aprendiendo ingeneria de datos
+ Las chicas superpoderosas aprendiendo ingeneria de datos ;)
