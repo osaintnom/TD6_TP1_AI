@@ -1,0 +1,48 @@
+---
+title: "TP 1"
+subtitle: "Tecnologia Digital VI"
+author: "Piñera - Saintnom - Dediego"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+
+## Ejercicio 1
+
+ Seleccionamos un dataset que incluye información para luego estimar el nivel de obecidad de individuos basado en sus hábitos alimenticios y su condición física. Los paises de donde se extrayeron los datos son Mexico, Peru y Colombia. La información contiene 17 atributos y 2111 observaciones. Los registros están etiquetados con la variable de clase NObesity (Obesity Level), lo que permite la clasificación de los datos utilizando los valores de Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II, Obesity Type I, Obesity Type II y Obesity Type III.
+ Vamos a aplicar una transformación del dataset para convertirlo en un clasificación binaria. Para eso vamos a cambiar las etiquetas anteriormente mencionadas (Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II) por 0 indicando que la persona no es obesa y (Obesity Type I, Obesity Type II y Obesity Type III) por 1 indicando que el individuo es obeso. 
+
+
+Generamos una tabla de frecuencias que muestra cuántas veces aparece cada categoría única en la columna "NObeyesdad". Esto nos va a servir para el ejercicio 3. 
+```{r setup, include=FALSE}
+library(dplyr)
+
+# Leer el archivo CSV
+data <- read.csv("data/ObesityDataSet_raw_and_data_sinthetic.csv")
+
+# Definir una función para asignar la clasificación binaria
+classify <- function(classification) {
+  if (classification %in% c("Insufficient_Weight", "Normal_Weight", "Overweight_Level_I", "Overweight_Level_II")) {
+    return(0)
+  } else if (classification %in% c("Obesity_Type_I", "Obesity_Type_II", "Obesity_Type_III")) {
+    return(1)
+  } else {
+    return(NA)
+  }
+}
+
+# Aplicar la función a la columna "Classification" y asignar los resultados a una nueva columna
+data$Binary_Classification <- sapply(data$Classification, classify)
+
+# Guardar los resultados en un nuevo archivo CSV
+write.csv(data, "data_with_binary_classification.csv", row.names = FALSE)
+
+# Mostrar los primeros registros del nuevo conjunto de datos
+head(data)
+
+
+```
+
+poner cuantas observaciones hay de cada uno de las 8 categorias
+poner cuantas observaciones hay despues de la transformacion
+ej 3 si no queda balanceado la # de 0 y 1, balancearlo o biceversa
