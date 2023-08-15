@@ -3,7 +3,7 @@ library(ggplot2)  # For creating plots
 library(dplyr)    # For data manipulation
 
 # Constants and global variables
-PARALLELIZE <- FALSE # Set the option for parallelization of computations
+PARALLELIZE <- TRUE # Set the option for parallelization of computations
 N_THREADS <- 30     # Define the number of threads for parallel processing
 N_BINS <- 10        # Define the number of bins for discretization
 RERUN_EXP <- TRUE   # Set the option to rerun the experiment
@@ -127,8 +127,7 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 # Load the datasets
 datasets_to_pred <- list(
   load_df("./data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
-  load_df("./data/heart.csv", "Heart", "HeartDisease"),    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
-  load_df("./data/ObesityDataSet_raw_and_data_sinthetic.csv", "Obesity", "obesity") #https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition
+  load_df("./data/heart.csv", "Heart", "HeartDisease")    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
 )
 
 # Run the experiment

@@ -126,16 +126,20 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 
 # Load the datasets
 datasets_to_pred <- list(
-  #load_df("./data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
-  #load_df("./data/heart.csv", "Heart", "HeartDisease"),    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
-  load_df("./data/ObesityDataSet_raw_and_data_sinthetic.csv", "Obesity", "obesity") #https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition
+  load_df("./data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
+  load_df("./data/heart.csv", "Heart", "HeartDisease"),    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+  load_df("./data/ObesityDataSet_raw_and_data_sinthetic.csv", "Obesity", "NObeyesdad") #https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition
   )
 
 # Run the experiment
 if (RERUN_EXP ==  TRUE) {
-  run_experiment(datasets_to_pred, "./outputs/tables/sample_exp.txt")
+  run_experiment(datasets_to_pred, "./outputs/tables/sample_exp1.txt")
 }
 
 # Plot the experiment results
-plot_exp_results( "./outputs/tables/sample_exp.txt", "./outputs/plots/sample_exp.jpg", width=5, height=4)
+plot_exp_results( "./outputs/tables/sample_exp1.txt", "./outputs/plots/sample_exp1.jpg", width=5, height=4)
+
+
+
+
 
