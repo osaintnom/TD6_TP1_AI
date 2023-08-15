@@ -9,7 +9,7 @@ N_BINS <- 10        # Define the number of bins for discretization
 RERUN_EXP <- TRUE   # Set the option to rerun the experiment
 
 # Load provided functions
-source("./TD6_TP1_AI/src/provided_functions.R")
+source("./provided_functions.R")
 
 #' Run an experiment to evaluate the performance of a predictive model under different conditions.
 #'
@@ -29,8 +29,8 @@ run_experiment <- function(datasets_to_pred, filepath) {
   
   # Iterate through different dataset, imputation, and proportion of missing values combinations
   for (dtp in datasets_to_pred) {
-    for (impute in c("Yes", "No")) {
-      for (prop_NAs in c(0, 0.7)) {
+    for (impute in c("Yes", "No")) { 
+      for (prop_NAs in seq(0.1, 0.9, 0.2)) {
         print(c(dtp$dataset_name, impute, prop_NAs))
         
         # Configure preprocessing options based on imputation choice
@@ -126,8 +126,8 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 
 # Load the datasets
 datasets_to_pred <- list(
-  load_df("./TD6_TP1_AI/src/data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
-  load_df("./TD6_TP1_AI/src/data/heart.csv", "Heart", "HeartDisease")    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+  load_df("./data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
+  load_df("./data/heart.csv", "Heart", "HeartDisease")    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
 )
 
 # Run the experiment
@@ -137,3 +137,4 @@ if (RERUN_EXP ==  TRUE) {
 
 # Plot the experiment results
 plot_exp_results( "./outputs/tables/sample_exp.txt", "./outputs/plots/sample_exp.jpg", width=5, height=4)
+
