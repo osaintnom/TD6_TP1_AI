@@ -8,7 +8,7 @@ output: pdf_document
 
 ## Ejercicio 1
 
-Para este trabajo elegimos un dataset de los habitos alimenticios y condicion fisicas de individuos entre 14 y 61 años de los países de México, Perú y Colombia. La información contiene 17 atributos y 2111 observaciones. El 77% de los datos fue generado sintéticamente utilizando la herramienta Weka y el filtro SMOTE, mientras que el 23% de los datos fue recopilado directamente de usuarios a través de una platafo
+Para este trabajo elegimos un dataset que contiene los habitos alimenticios y condicion fisicas de individuos entre los 14 y 61 años de edad, de los países de México, Perú y Colombia. La información contiene 17 atributos y 2111 observaciones. El 77% de los datos fueron generado sintéticamente utilizando la herramienta Weka y el filtro SMOTE, mientras que el 23% de los datos fue recopilado directamente de usuarios a través de una plataforma web
 
 El link para enonctrarlo es: <https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition>.
 
@@ -18,7 +18,7 @@ Los atributos relacionados con los hábitos alimenticios son: Consumo frecuente 
 
 Los registros del valor de retorno están etiquetados con la variable de clase NObesity (Obesity Level), lo que permite la clasificación de los datos utilizando los valores de Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II, Obesity Type I, Obesity Type II y Obesity Type III.
 
-Vamos a aplicar una transformación del dataset para convertirlo en un clasificación binaria. Para eso vamos a cambiar las etiquetas de las categorias anteriormente mencionadas en la columna "NObeyesdad" (Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II) por 0 indicando que el individuo no es obeso y (Obesity Type I, Obesity Type II y Obesity Type III) por 1 indicando que el individuo tiene obesidad.
+Para poder clasificar los usuarios en individuos con o sin obesidad, aplicamos una transformación del dataset para convertirlo en un clasificación binaria. Para eso vamos a cambiar las etiquetas de las categorias anteriormente mencionadas en la columna "NObeyesdad" (Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II) por 0 indicando que el individuo no es obeso y (Obesity Type I, Obesity Type II y Obesity Type III) por 1 indicando que el individuo tiene obesidad.
 
 Generamos una tabla de frecuencias que muestra cuántas veces aparece cada categoría única en la columna "NObeyesdad".
 
@@ -57,7 +57,7 @@ write.csv(data, "./data/transformacion.csv", row.names = FALSE)
 
 ```
 
-Luego de hacer la transformacion volvemos a comparar la cantidad de ocurrencias para verificar que este balanceado la cantidad de unos y ceros.
+Luego de hacer la transformación volvemos a comparar la cantidad de ocurrencias para verificar que este balanceada la cantidad de unos (1s) y ceros (0s), para comprobar que exista suficiente información sobre individuos sin obesidad que individuos con obesidad.
 
 ```{r}
 
