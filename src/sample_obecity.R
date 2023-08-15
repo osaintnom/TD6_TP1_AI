@@ -9,7 +9,7 @@ N_BINS <- 10        # Define the number of bins for discretization
 RERUN_EXP <- TRUE   # Set the option to rerun the experiment
 
 # Load provided functions
-source("/Users/lucaspinera/Desktop/ditella - sexto semestre/AI/tps/TD6_TP1_AI/src/provided_functions.R")
+source("./TD6_TP1_AI/src/provided_functions.R")
 
 #' Run an experiment to evaluate the performance of a predictive model under different conditions.
 #'
@@ -126,8 +126,8 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 
 # Load the datasets
 datasets_to_pred <- list(
-  load_df("/Users/lucaspinera/Desktop/ditella - sexto semestre/AI/tps/TD6_TP1_AI/src/data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
-  load_df("/Users/lucaspinera/Desktop/ditella - sexto semestre/AI/tps/TD6_TP1_AI/src/data/heart.csv", "Heart", "HeartDisease")    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+  load_df("./TD6_TP1_AI/src/data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
+  load_df("./TD6_TP1_AI/src/data/heart.csv", "Heart", "HeartDisease")    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
 )
 
 # Run the experiment
