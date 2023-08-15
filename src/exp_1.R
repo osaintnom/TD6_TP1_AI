@@ -3,7 +3,7 @@ library(ggplot2)  # For creating plots
 library(dplyr)    # For data manipulation
 
 # Constants and global variables
-PARALLELIZE <- FALSE # Set the option for parallelization of computations
+PARALLELIZE <- TRUE # Set the option for parallelization of computations
 N_THREADS <- 30     # Define the number of threads for parallel processing
 N_BINS <- 10        # Define the number of bins for discretization
 RERUN_EXP <- TRUE   # Set the option to rerun the experiment
@@ -127,6 +127,7 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 # Load the datasets
 datasets_to_pred <- list(
   load_df("./data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
+<<<<<<< HEAD
   load_df("./data/heart.csv", "Heart", "HeartDisease"),   # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
   load_df("./data/transformacion.csv", "transformacion.csv", "NObeyesdad")
 )
@@ -138,4 +139,21 @@ if (RERUN_EXP ==  TRUE) {
 
 # Plot the experiment results
 plot_exp_results( "./outputs/tables/exp_1.txt", "./outputs/plots/exp_1.jpg", width=5, height=4)
+=======
+  load_df("./data/heart.csv", "Heart", "HeartDisease"),    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+  load_df("./data/ObesityDataSet_raw_and_data_sinthetic.csv", "Obesity", "NObeyesdad") #https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition
+  )
+
+# Run the experiment
+if (RERUN_EXP ==  TRUE) {
+  run_experiment(datasets_to_pred, "./outputs/tables/sample_exp1.txt")
+}
+
+# Plot the experiment results
+plot_exp_results( "./outputs/tables/sample_exp1.txt", "./outputs/plots/sample_exp1.jpg", width=5, height=4)
+
+
+
+
+>>>>>>> 9b8e1f0e909e8e0fd4dc95babcb192e8ce54055f
 
