@@ -1,7 +1,7 @@
 ---
 title: "TP 1"
 subtitle: "Tecnologia Digital VI"
-author: "Piñera - Saintnom - Dediego"
+author: "Piñera - SaintNom - DeDiego"
 date: "`r Sys.Date()`"
 output: pdf_document
 ---

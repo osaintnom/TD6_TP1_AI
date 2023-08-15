@@ -1,3 +1,5 @@
+set.seed(782233747)
+
 # Load the necessary libraries for data analysis and visualization
 library(ggplot2)  # For creating plots
 library(dplyr)    # For data manipulation
@@ -139,3 +141,4 @@ if (RERUN_EXP ==  TRUE) {
 # Plot the experiment results
 plot_exp_results( "./outputs/tables/exp_1.txt", "./outputs/plots/exp_1.jpg", width=5, height=4)
 
+print()
