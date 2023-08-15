@@ -1,0 +1,70 @@
+---
+title: "TP 1"
+subtitle: "Tecnologia Digital VI"
+author: "Piñera - Saintnom - Dediego"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+
+## Ejercicio 1
+
+Seleccionamos un dataset que incluye información para luego estimar el nivel de obesidad de individuos basado en sus hábitos alimenticios y su condición física. Los paises de donde se extrayeron los datos son Mexico, Peru y Colombia. La información contiene 17 atributos y 2111 observaciones. Los registros están etiquetados con la variable de clase NObesity (Obesity Level), lo que permite la clasificación de los datos utilizando los valores de Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II, Obesity Type I, Obesity Type II y Obesity Type III. El dataset no tiene valores faltantes. 
+link: https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition
+
+Vamos a aplicar una transformación del dataset para convertirlo en un clasificación binaria. Para eso vamos a cambiar las etiquetas de las categorias anteriormente mencionadas en la columna "NObeyesdad" (Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II) por 0 indicando que el individuo no es obeso y (Obesity Type I, Obesity Type II y Obesity Type III) por 1 indicando que el individuo tiene obesidad. 
+
+Generamos una tabla de frecuencias que muestra cuántas veces aparece cada categoría única en la columna "NObeyesdad". 
+
+```{r setup, include=TRUE}
+knitr::opts_chunk$set(echo = TRUE)
+data <- read.csv("./data/ObesityDataSet_raw_and_data_sinthetic.csv")
+
+columna_categorias <- "NObeyesdad"
+
+tabla_frecuencias <- table(data[, columna_categorias])
+tabla_frecuencias
+```
+
+
+### Hacemos la transformación
+
+```{r}
+
+data <- read.csv("./data/ObesityDataSet_raw_and_data_sinthetic.csv")
+
+reemplazar_categorias <- function(categoria) {
+  if (categoria %in% c("Insufficient_Weight", "Normal_Weight", "Overweight_Level_I", "Overweight_Level_II")) {
+    return(0)
+  } else if (categoria %in% c("Obesity_Type_I", "Obesity_Type_II", "Obesity_Type_III")) {
+    return(1)
+  } else {
+    return(NA)
+  }
+}
+
+data$NObeyesdad <- sapply(data$NObeyesdad, reemplazar_categorias)
+
+write.csv(data, "./data/transformacion.csv", row.names = FALSE)
+
+
+```
+
+
+Luego de hacer la transformacion volvemos a votar para verificar que este balanceado la cantidad de unos y ceros.
+
+ 
+```{r}
+
+data <- read.csv("./data/transformacion.csv")
+
+columna_categorias <- "NObeyesdad"
+
+tabla_frecuencias <- table(data[, columna_categorias])
+tabla_frecuencias
+
+``` 
+
+
+
+
