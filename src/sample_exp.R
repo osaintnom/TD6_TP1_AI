@@ -127,7 +127,8 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 # Load the datasets
 datasets_to_pred <- list(
   load_df("./data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
-  load_df("./data/heart.csv", "Heart", "HeartDisease")    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+  load_df("./data/heart.csv", "Heart", "HeartDisease"),    # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+  load_df("./data/ObesityDataSet_raw_and_data_sinthetic.csv", "Obesity", "obesity") #https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition
 )
 
 # Run the experiment
