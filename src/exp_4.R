@@ -1,6 +1,5 @@
 set.seed(782233747)
 
-
 # Load the necessary libraries for data analysis and visualization
 library(ggplot2)  # For creating plots
 library(dplyr)    # For data manipulation
@@ -12,7 +11,7 @@ N_BINS <- 10        # Define the number of bins for discretization
 RERUN_EXP <- TRUE   # Set the option to rerun the experiment
 
 # Load provided functions
-source("./provided_functions.R")
+source("provided_functions.R")
 
 #' Run an experiment to evaluate the performance of a predictive model under different conditions.
 #'
@@ -32,52 +31,37 @@ run_experiment <- function(datasets_to_pred, filepath) {
   
   # Iterate through different dataset, imputation, and proportion of missing values combinations
   for (dtp in datasets_to_pred) {
-    for (impute in c("Yes", "No")) { 
-      for (prop_NAs in c(0, 0.7)) {
-        print(c(dtp$dataset_name, impute, prop_NAs))
-        
-        # Configure preprocessing options based on imputation choice
-        if (impute == "Yes") {
-          preprocess_control <- list(
-            prop_NAs=prop_NAs,
-            impute_NAs=TRUE,
-            treat_NAs_as_new_levels=FALSE,
-            do_ohe=FALSE,
-            discretize=TRUE,
-            n_bins=N_BINS,
-            ord_to_numeric=TRUE,
-            prop_switch_y=0
-          )
-        } else if (impute == "No") {
-          preprocess_control <- list(
-            prop_NAs=prop_NAs,
-            impute_NAs=FALSE,
-            treat_NAs_as_new_levels=FALSE,
-            do_ohe=FALSE,
-            discretize=FALSE,
-            n_bins=N_BINS,
-            ord_to_numeric=TRUE,
-            prop_switch_y=0
-          )
-        }
-        
-        # Perform the experiment for the current settings
-        if (PARALLELIZE == TRUE) {
-          res_tmp <- est_auc_across_depths(dtp, preprocess_control,
-                                           max_maxdepth=30, prop_val=0.25,
-                                           val_reps=30)
-        } else {
-          res_tmp <- est_auc_across_depths_no_par(dtp, preprocess_control,
-                                                  max_maxdepth=30, prop_val=0.25,
-                                                  val_reps=30)
-        }
-        
-        res_tmp$IMPUTED <- impute
-        res_tmp$prop_NAs <- prop_NAs
-        exp_results[[i]] <- res_tmp
-        rm(res_tmp)  # Clean up temporary result
-        i <- i + 1  # Increment result counter
+    for (prop_switch_y in seq(0, 0.5, 0.025)){
+      print(c(dtp$dataset_name, prop_switch_y))
+      
+      # Configure preprocessing options based on imputation choice
+      preprocess_control <- list(
+        prop_NAs=0,
+        impute_NAs=FALSE,
+        treat_NAs_as_new_levels=FALSE,
+        do_ohe=FALSE,
+        discretize=FALSE,
+        n_bins=N_BINS,
+        ord_to_numeric=FALSE,
+        prop_switch_y=prop_switch_y
+      )
+      
+      
+      # Perform the experiment for the current settings
+      if (PARALLELIZE == TRUE) {
+        res_tmp <- est_auc_across_depths(dtp, preprocess_control,
+                                         max_maxdepth=30, prop_val=0.25,
+                                         val_reps=30)
+      } else {
+        res_tmp <- est_auc_across_depths_no_par(dtp, preprocess_control,
+                                                max_maxdepth=30, prop_val=0.25,
+                                                val_reps=30)
       }
+      
+      res_tmp$prop_switch_y <- prop_switch_y
+      exp_results[[i]] <- res_tmp
+      rm(res_tmp)  # Clean up temporary result
+      i <- i + 1  # Increment result counter
     }
   }
   
@@ -108,16 +92,21 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
   
   # Calculate mean AUC values for different groups of experimental results
   data_for_plot <- exp_results %>%
-    group_by(dataset_name, prop_NAs, IMPUTED, maxdepth) %>%
+    group_by(dataset_name, prop_switch_y, maxdepth) %>%
     summarize(mean_auc=mean(auc), .groups='drop')
   
+  #Agrupamos los valores de AUC promedios recien calculados
+  data_for_plot_max <- data_for_plot %>%
+    group_by(dataset_name, prop_switch_y) %>%
+    summarize(max_mean_auc = max(mean_auc), .groups='drop')
+  
   # Create a ggplot object for the line plot
-  g <- ggplot(data_for_plot, aes(x=maxdepth, y=mean_auc, color=IMPUTED)) +
+  g <- ggplot(data_for_plot_max, aes(x=prop_switch_y, y=max_mean_auc)) +
     geom_line() +
     theme_bw() +
-    xlab("Maximum tree depth") +
-    ylab("AUC (estimated through repeated validation)") +
-    facet_grid(dataset_name ~ prop_NAs, scales="free_y") +
+    xlab("Prop_switch_y") +
+    ylab("MAX AUC (estimated through repeated validation)") +
+    facet_grid(. ~ dataset_name, scales="free_y") +
     theme(legend.position="bottom",
           panel.grid.major=element_blank(),
           strip.background=element_blank(),
@@ -130,16 +119,13 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 # Load the datasets
 datasets_to_pred <- list(
   load_df("./data/customer_churn.csv", "Churn", "churn"), # Source: https://archive.ics.uci.edu/dataset/563/iranian+churn+dataset
-  load_df("./data/heart.csv", "Heart", "HeartDisease"),   # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
-  load_df("./data/transformacion.csv", "Obesity", "NObeyesdad") #Source: https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition.
-)
+  load_df("./data/heart.csv", "Heart", "HeartDisease"), # Source: https://www.kaggle.com/datasets/arnabchaki/data-science-salaries-2023
+  load_df("./data/transformacion.csv", "Obesity", "NObeyesdad")) #Source: https://archive.ics.uci.edu/dataset/544/estimation+of+obesity+levels+based+on+eating+habits+and+physical+condition.
 
 # Run the experiment
 if (RERUN_EXP ==  TRUE) {
-  run_experiment(datasets_to_pred, "./outputs/tables/exp_3_discretize.txt")
+  run_experiment(datasets_to_pred, "./outputs/tables/exp_4.txt")
 }
 
 # Plot the experiment results
-plot_exp_results( "./outputs/tables/exp_3_discretize.txt", "./outputs/plots/exp_3_discretize.jpg", width=5, height=4)
-
-
+plot_exp_results( "./outputs/tables/exp_4.txt", "./outputs/plots/exp_4.jpg", width=5, height=4)

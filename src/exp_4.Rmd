@@ -1,0 +1,37 @@
+---
+title: "exp_4"
+author: "Patricio Guledjian, Azul Noguera, Rocio Gonzalez"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+source("exp_4.R")
+```
+
+```{r}
+
+library(magick)
+
+# Ruta de la imagen JPG
+ruta_imagen <- "./outputs/plots/exp_4.jpg"
+
+# Cargar y mostrar la imagen
+imagen <- image_read(ruta_imagen)
+# Redimensionar la imagen para ajustarla al tamaño de la consola
+imagen_redimensionada <- image_scale(imagen, "475x500")
+
+# Mostrar la imagen redimensionada en la consola
+print(imagen_redimensionada)
+
+```
+
+Nuevamente decidimos que los gráficos los tengan a la vista a la hora que les comentemos nuestras observaciones así se les hace más facil.
+
+En este experimento, analizamos como el ruido en la variable a predecir afecta la performance del árbol en cada uno de nuestros datasets. Tener ruido en las variables es muy común, de modo que es importante e interesante poder entender bien como se comportan los árboles en estas situaciones. Comencemos con las observaciones:
+
+-   En primer lugar, notamos un patrón evidente, donde a medida que aumenta el ruido (prop_switch_y), el MAX AUC baja. Esto tiene sentido porque la presencia de más ruido significa que hay mas proporción de valores de la variable a predecir que intercambian entre 0 y 1. En otras palabras, al ser esta variable de clasificación binaria, el intercambio es basicamente poner la respuesta que NO predice.
+
+-   A raíz de la observación anterior, se puede visualizar que los tres datasets llegan a su peor performance de 0.5 en el momento donde el prop_switch_y es igual a 0.5. Entonces, cuando la mitad de los valores sufren la consecuencia de un switch, el MAX AUC se encuentra en 0.5. Puede llegar a ser una particularidad de estos 3 datasets esta casualidad, pero intuitivamente tienen sentido que tener mitad de tus valores switcheados lleva a una performance muy baja.
+
+-   El MAX AUC de punto de partida de cada dataset tiene sus diferencias. Es interesante ya que en ese momento, el prop_switch_y y el prop_NA son iguales a 0. Por lo tanto, el valor de la performance esta basado en el dataset original. Aqui podemos notar como en 'Churn', se llega a un valor mayor a 0.9. Por supuesto que puede ser por la particularidad del dataset, pero tambien podemos comentar la posibilidad de otros factores como las variables predictoras que pueden ser muy buenas, o tambien al ser un dataset de alrededor de 3000 instancias, la cantidad de datos puede ayudar a una mejor predicción. Luego, en el caso de 'Wine', comienza con una performance de 0.8. Una de las razones por las que no es tan alta su performance puede ser por las variables predictoras y la similitud que hay entre ellas. Al ser variables numéricas de muchos decimales, no se encuentran grandes diferencias entre los valores de las distintas instancias, lo cual puede resultar en predicciones no tan precisas.
