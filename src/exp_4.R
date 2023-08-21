@@ -37,7 +37,7 @@ run_experiment <- function(datasets_to_pred, filepath) {
       # Configure preprocessing options based on imputation choice
       preprocess_control <- list(
         prop_NAs=0,
-        impute_NAs=FALSE,
+        impute_NAs=TRUE,
         treat_NAs_as_new_levels=FALSE,
         do_ohe=FALSE,
         discretize=FALSE,
@@ -109,7 +109,7 @@ plot_exp_results <- function(filename_exp_results, filename_plot, filename_table
     geom_line() +
     theme_bw() +
     xlab("Prop_switch_y") +
-    ylab("MAX AUC (estimated through repeated validation)") +
+    ylab("MAX AUC") +
     facet_grid(. ~ dataset_name, scales="free_y") +
     theme(legend.position="bottom",
           panel.grid.major=element_blank(),
