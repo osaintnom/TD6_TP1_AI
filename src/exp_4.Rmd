@@ -1,37 +1,28 @@
 ---
 title: "exp_4"
-author: "Patricio Guledjian, Azul Noguera, Rocio Gonzalez"
+subtitle: "Tecnologia Digital VI"
+author: "Piñera - SaintNom - DeDiego"
 date: "`r Sys.Date()`"
-output: html_document
+output: pdf_document
 ---
 
 ```{r}
 source("exp_4.R")
+
 ```
+
+En este último experimento, buscamos investigar el impacto del ruido presente en las variables que deseamos predecir en el rendimiento de los árboles de decisión en diferentes conjuntos de datos y niveles de ruido. Este experimento es muy esencial, ya que el ruido es una característica común en muchos escenarios de modelado, lo que nos daría un entendimiento más profundo de cómo se comportan los modelos en situaciones como estas. Nuestro objetivo es obtener una perspectiva más completa sobre cómo el ruido puede afectar la capacidad predictiva de los árboles de decisión en contextos muy comunes en la práctica.
+
+Nuestra hipótesis plantea que a medida que aumenta el nivel de ruido en las variables objetivo, la precisión del rendimiento de los árboles de decisión disminuirán. Esperamos ver que el aumento del ruido introducirá mayor variabilidad en las predicciones, lo que resultará en una disminución de las métricas de evaluación del modelo, como el área bajo la curva (AUC).
 
 ```{r}
-
-library(magick)
-
-# Ruta de la imagen JPG
-ruta_imagen <- "./outputs/plots/exp_4.jpg"
-
-# Cargar y mostrar la imagen
-imagen <- image_read(ruta_imagen)
-# Redimensionar la imagen para ajustarla al tamaño de la consola
-imagen_redimensionada <- image_scale(imagen, "475x500")
-
-# Mostrar la imagen redimensionada en la consola
-print(imagen_redimensionada)
-
+#grafico
 ```
 
-Nuevamente decidimos que los gráficos los tengan a la vista a la hora que les comentemos nuestras observaciones así se les hace más facil.
+En la ejecución del experimento, calculamos los valores máximos de la métrica AUC para cada uno de los conjuntos de datos: Churn, Heart y Obesity, variando los porcentajes de ruido en las variables objetivo.
 
-En este experimento, analizamos como el ruido en la variable a predecir afecta la performance del árbol en cada uno de nuestros datasets. Tener ruido en las variables es muy común, de modo que es importante e interesante poder entender bien como se comportan los árboles en estas situaciones. Comencemos con las observaciones:
+Nuestros resultados confirmaron nuestras expectativas. A medida que incrementamos el porcentaje de ruido, observamos una tendencia clara de disminución en la métrica AUC en los tres datasets. Esta tendencia se da porque la presencia de ruido indica una mayor proporción de valores en la variable objetivo que se intercambian entre 0 y 1.
 
--   En primer lugar, notamos un patrón evidente, donde a medida que aumenta el ruido (prop_switch_y), el MAX AUC baja. Esto tiene sentido porque la presencia de más ruido significa que hay mas proporción de valores de la variable a predecir que intercambian entre 0 y 1. En otras palabras, al ser esta variable de clasificación binaria, el intercambio es basicamente poner la respuesta que NO predice.
+En el conjunto de datos Churn, iniciamos con un máximo AUC de 0,92, pero a partir del 20% de ruido, este valor decreció por debajo del 90%, llegando finalmente a un nivel de desempeño de 0,5. De manera similar, en el conjunto de datos Heart, el máximo AUC inicial de 0,87 se redujo rápidamente hasta alcanzar un valor mínimo de 0,5 con mayores niveles de ruido. Respecto al dataset Obesity, el modelo comenzó con un máximo AUC de 0,98 en condiciones de ausencia de ruido (0%), pero a partir del 40% de ruido, disminuyó por debajo de 0,9. En todos los casos, cuando la mitad de los datos son intercambiados, el maximo AUC se encuentra en 0,5.
 
--   A raíz de la observación anterior, se puede visualizar que los tres datasets llegan a su peor performance de 0.5 en el momento donde el prop_switch_y es igual a 0.5. Entonces, cuando la mitad de los valores sufren la consecuencia de un switch, el MAX AUC se encuentra en 0.5. Puede llegar a ser una particularidad de estos 3 datasets esta casualidad, pero intuitivamente tienen sentido que tener mitad de tus valores switcheados lleva a una performance muy baja.
-
--   El MAX AUC de punto de partida de cada dataset tiene sus diferencias. Es interesante ya que en ese momento, el prop_switch_y y el prop_NA son iguales a 0. Por lo tanto, el valor de la performance esta basado en el dataset original. Aqui podemos notar como en 'Churn', se llega a un valor mayor a 0.9. Por supuesto que puede ser por la particularidad del dataset, pero tambien podemos comentar la posibilidad de otros factores como las variables predictoras que pueden ser muy buenas, o tambien al ser un dataset de alrededor de 3000 instancias, la cantidad de datos puede ayudar a una mejor predicción. Luego, en el caso de 'Wine', comienza con una performance de 0.8. Una de las razones por las que no es tan alta su performance puede ser por las variables predictoras y la similitud que hay entre ellas. Al ser variables numéricas de muchos decimales, no se encuentran grandes diferencias entre los valores de las distintas instancias, lo cual puede resultar en predicciones no tan precisas.
+Estos hallazgos resaltan la influencia negativa del ruido en las variables objetivo sobre la capacidad predictiva de los modelos de árboles de decisión, validando nuestra hipótesis inicial.

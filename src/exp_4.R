@@ -95,7 +95,7 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
     group_by(dataset_name, prop_switch_y, maxdepth) %>%
     summarize(mean_auc=mean(auc), .groups='drop')
   
-  #Agrupamos los valores de AUC promedios recien calculados
+  # Agrupamos los valores de AUC promedios recien calculados
   data_for_plot_max <- data_for_plot %>%
     group_by(dataset_name, prop_switch_y) %>%
     summarize(max_mean_auc = max(mean_auc), .groups='drop')
@@ -103,6 +103,7 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
   # Create a ggplot object for the line plot
   g <- ggplot(data_for_plot_max, aes(x=prop_switch_y, y=max_mean_auc)) +
     geom_line() +
+    geom_table(aes(label = scales::number(max_mean_auc, accuracy = 0.01))) +  # Agrega la tabla
     theme_bw() +
     xlab("Prop_switch_y") +
     ylab("MAX AUC (estimated through repeated validation)") +
