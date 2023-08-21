@@ -8,7 +8,7 @@ library(dplyr)    # For data manipulation
 PARALLELIZE <- TRUE # Set the option for parallelization of computations
 N_THREADS <- 30     # Define the number of threads for parallel processing
 N_BINS <- 10        # Define the number of bins for discretization
-RERUN_EXP <- TRUE   # Set the option to rerun the experiment
+RERUN_EXP <- FALSE   # Set the option to rerun the experiment
 
 # Load provided functions
 source("provided_functions.R")
@@ -31,7 +31,7 @@ run_experiment <- function(datasets_to_pred, filepath) {
   
   # Iterate through different dataset, imputation, and proportion of missing values combinations
   for (dtp in datasets_to_pred) {
-    for (prop_switch_y in seq(0, 0.5, 0.025)){
+    for (prop_switch_y in seq(0, 0.5, 0.025)){ #c(0,0.25,0.5))
       print(c(dtp$dataset_name, prop_switch_y))
       
       # Configure preprocessing options based on imputation choice
@@ -86,7 +86,11 @@ run_experiment <- function(datasets_to_pred, filepath) {
 #' values against maximum tree depths, with different lines for different imputation methods and facets
 #' for different datasets and proportions of missing data. The resulting plot is saved as the specified file.
 #'
-plot_exp_results <- function(filename_exp_results, filename_plot, width, height) {
+
+
+library(gtable)
+
+plot_exp_results <- function(filename_exp_results, filename_plot, filename_table_txt, filename_table_jpg, width, height) {
   # Load experiment results
   exp_results <- read.table(filename_exp_results, header=TRUE, sep="\t")
   
@@ -95,7 +99,7 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
     group_by(dataset_name, prop_switch_y, maxdepth) %>%
     summarize(mean_auc=mean(auc), .groups='drop')
   
-  # Agrupamos los valores de AUC promedios recien calculados
+  # Agrupamos los valores de AUC promedios recién calculados
   data_for_plot_max <- data_for_plot %>%
     group_by(dataset_name, prop_switch_y) %>%
     summarize(max_mean_auc = max(mean_auc), .groups='drop')
@@ -103,7 +107,6 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
   # Create a ggplot object for the line plot
   g <- ggplot(data_for_plot_max, aes(x=prop_switch_y, y=max_mean_auc)) +
     geom_line() +
-    geom_table(aes(label = scales::number(max_mean_auc, accuracy = 0.01))) +  # Agrega la tabla
     theme_bw() +
     xlab("Prop_switch_y") +
     ylab("MAX AUC (estimated through repeated validation)") +
@@ -115,6 +118,13 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
   
   # Save the plot to a file
   ggsave(filename_plot, g, width=width, height=height)
+  
+  # Write MAXAUC values to a text file
+  if (file.exists(filename_table_txt)) {
+    file.remove(filename_table_txt) # Remove the existing file
+  }
+  write.table(data_for_plot_max, filename_table_txt, sep="\t", row.names=FALSE)
+  
 }
 
 # Load the datasets
@@ -128,5 +138,5 @@ if (RERUN_EXP ==  TRUE) {
   run_experiment(datasets_to_pred, "./outputs/tables/exp_4.txt")
 }
 
-# Plot the experiment results
-plot_exp_results( "./outputs/tables/exp_4.txt", "./outputs/plots/exp_4.jpg", width=5, height=4)
+# Plot the experiment results and create the table
+plot_exp_results( "./outputs/tables/exp_4.txt", "./outputs/plots/exp_4.jpg", "./outputs/tables/exp_4_table.txt", "./outputs/plots/exp_4_table.jpg", width=5, height=4)

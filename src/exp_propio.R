@@ -5,7 +5,7 @@ library(ggplot2)  # For creating plots
 library(dplyr)    # For data manipulation
 
 # Constants and global variables
-PARALLELIZE <- FALSE # Set the option for parallelization of computations
+PARALLELIZE <- TRUE # Set the option for parallelization of computations
 N_THREADS <- 30     # Define the number of threads for parallel processing
 N_BINS <- 10        # Define the number of bins for discretization
 RERUN_EXP <- FALSE   # Set the option to rerun the experiment
@@ -128,11 +128,11 @@ plot_exp_results <- function(filename_exp_results, filename_plot, width, height)
 
 # Load the datasets
 datasets_to_pred <- list(
-  load_df("./data/transformacion_1.csv", "Obesity_1", "NObeyesdad"),
-  load_df("./data/transformacion_2.csv", "Obesity_2", "NObeyesdad"),
-  load_df("./data/transformacion_3.csv", "Obesity_3", "NObeyesdad"),
-  load_df("./data/transformacion_4.csv", "Obesity_4", "NObeyesdad"),
-  load_df("./data/transformacion_5.csv", "Obesity_5", "NObeyesdad")
+  load_df("./data/transformacion_1.csv", "Corte 1", "NObeyesdad"),
+  load_df("./data/transformacion_2.csv", "Corte 2", "NObeyesdad"),
+  load_df("./data/transformacion_3.csv", "Corte 3", "NObeyesdad"),
+  load_df("./data/transformacion_4.csv", "Corte 4", "NObeyesdad"),
+  load_df("./data/transformacion_5.csv", "Corte 5", "NObeyesdad")
 )
 
 # Run the experiment

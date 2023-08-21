@@ -17,12 +17,27 @@ Nuestra hipótesis plantea que a medida que aumenta el nivel de ruido en las var
 
 ```{r}
 #grafico
+knitr::include_graphics("./outputs/plots/exp_4.jpg")
+```
+
+```{r}
+library(tidyr)
+
+# Read the data from the "exp_4_table.txt" file
+table_data <- read.table("./outputs/tables/exp_4_table.txt", header=TRUE, sep="\t")
+
+# Reshape the data to have prop_switch_y values as columns
+table_data_wide <- table_data %>%
+  pivot_wider(names_from = prop_switch_y, values_from = max_mean_auc)
+
+# Print the wide-format table data
+print(table_data_wide)
 ```
 
 En la ejecución del experimento, calculamos los valores máximos de la métrica AUC para cada uno de los conjuntos de datos: Churn, Heart y Obesity, variando los porcentajes de ruido en las variables objetivo.
 
 Nuestros resultados confirmaron nuestras expectativas. A medida que incrementamos el porcentaje de ruido, observamos una tendencia clara de disminución en la métrica AUC en los tres datasets. Esta tendencia se da porque la presencia de ruido indica una mayor proporción de valores en la variable objetivo que se intercambian entre 0 y 1.
 
-En el conjunto de datos Churn, iniciamos con un máximo AUC de 0,92, pero a partir del 20% de ruido, este valor decreció por debajo del 90%, llegando finalmente a un nivel de desempeño de 0,5. De manera similar, en el conjunto de datos Heart, el máximo AUC inicial de 0,87 se redujo rápidamente hasta alcanzar un valor mínimo de 0,5 con mayores niveles de ruido. Respecto al dataset Obesity, el modelo comenzó con un máximo AUC de 0,98 en condiciones de ausencia de ruido (0%), pero a partir del 40% de ruido, disminuyó por debajo de 0,9. En todos los casos, cuando la mitad de los datos son intercambiados, el maximo AUC se encuentra en 0,5.
+Solo se evaluo el maximo AUC hasta donde la probabilidad de intecambiar los valores era del 50%, es decir, un 0.5 de ruido en los datasets. En el conjunto de datos Churn, iniciamos con un máximo AUC de 0,93, pero a partir del 25% de ruido, este valor decreció por debajo de 0,9, llegando finalmente a un nivel de desempeño de 0,52. De manera similar, en el conjunto de datos Heart, el máximo AUC inicial de 0,89 se redujo rápidamente hasta alcanzar un valor mínimo de 0,51 con mayores niveles de ruido. Respecto al dataset Obesity, el modelo comenzó con un máximo AUC de 0,99 en condiciones de ausencia de ruido (0%), y a partir del 25% de ruido, disminuyó poco a un valor de 0,97. En todos los casos, tienen probabilidad de ser intercambiados del 0,5, el maximo AUC se encuentra en 0,5 aproximadamente.
 
 Estos hallazgos resaltan la influencia negativa del ruido en las variables objetivo sobre la capacidad predictiva de los modelos de árboles de decisión, validando nuestra hipótesis inicial.
