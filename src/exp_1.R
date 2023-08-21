@@ -5,7 +5,7 @@ library(ggplot2)  # For creating plots
 library(dplyr)    # For data manipulation
 
 # Constants and global variables
-  PARALLELIZE <- FALSE # Set the option for parallelization of computations
+PARALLELIZE <- FALSE # Set the option for parallelization of computations
 N_THREADS <- 30     # Define the number of threads for parallel processing
 N_BINS <- 10        # Define the number of bins for discretization
 RERUN_EXP <- TRUE   # Set the option to rerun the experiment
@@ -141,4 +141,3 @@ if (RERUN_EXP ==  TRUE) {
 # Plot the experiment results
 plot_exp_results( "./outputs/tables/exp_1.txt", "./outputs/plots/exp_1.jpg", width=5, height=4)
 
-print()

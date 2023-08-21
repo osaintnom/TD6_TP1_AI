@@ -18,7 +18,7 @@ Los atributos relacionados con los hábitos alimenticios son: Consumo frecuente 
 
 Los registros del valor de retorno están etiquetados con la variable de clase NObesity (Obesity Level), lo que permite la clasificación de los datos utilizando los valores de Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II, Obesity Type I, Obesity Type II y Obesity Type III.
 
-Para poder clasificar los usuarios en individuos con o sin obesidad, aplicamos una transformación del dataset para convertirlo en un clasificación binaria. Para eso vamos a cambiar las etiquetas de las categorias anteriormente mencionadas en la columna "NObeyesdad" (Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II) por 0 indicando que el individuo no es obeso y (Obesity Type I, Obesity Type II y Obesity Type III) por 1 indicando que el individuo tiene obesidad.
+Para poder clasificar los usuarios en individuos con o sin obesidad, aplicamos una transformación del dataset para convertirlo en un clasificación binaria. Para eso vamos a cambiar las etiquetas de las categorias anteriormente mencionadas en la columna "NObeyesdad" (Insufficient Weight, Normal Weight, Overweight Level I, Overweight Level II) por 0 indicando que el individuo no tiene obesidad y (Obesity Type I, Obesity Type II y Obesity Type III) por 1 indicando que el individuo tiene obesidad.
 
 Generamos una tabla de frecuencias que muestra cuántas veces aparece cada categoría única en la columna "NObeyesdad".
 
