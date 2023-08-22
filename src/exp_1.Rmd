@@ -1,7 +1,7 @@
 ---
 title: "TP 1"
 subtitle: "Tecnologia Digital VI"
-author: "Piñera - SaintNom - DeDiego"
+author: "Piñera - Saint-Nom - De Diego"
 date: "`r Sys.Date()`"
 output: pdf_document
 ---
@@ -12,16 +12,18 @@ output: pdf_document
 
 ## Experimento 1
 
-#### Hipotesis:
+#### Hipótesis:
 
-En este experimento, exploramos cómo la presencia de valores faltantes en los conjuntos de datos afecta la calidad y el rendimiento de los modelos predictivos. Creemos que a medida que aumenta el porcentaje de valores faltantes en el conjunto de datos, la calidad y el rendimiento del modelo se verán negativamente afectados, llevando a una disminucion en la capacidad predictiva de aquel. Esto se da por porque la falta de datos puede introducir un sesgo en el modelo y por ende llevar a tomar decisiones menos informadas.
+En este experimento, exploramos cómo la presencia de valores faltantes en los conjuntos de datos afecta la calidad y el rendimiento de los modelos predictivos. Creemos que a medida que aumenta el porcentaje de valores faltantes en el conjunto de datos, la calidad y el rendimiento del modelo se verán negativamente afectados, llevando a una disminución en la capacidad predictiva del mismo. Esto se debe a que la falta de datos puede introducir un sesgo en el modelo y, por ende, llevar a tomar decisiones menos informadas.
 
-Por otro lado, creemos que el uso de imputacion de valores faltantes puede tener un efecto positivo en el rendimiento del modelo en comparacion con tener valores no imputados. Esto se da porque se le permite al modelo utilizar informacion generada razonable, antes que desechar filas con valores faltantes.
+Por otro lado, creemos que el uso de imputación de valores faltantes puede tener un efecto positivo en el rendimiento del modelo en comparación con tener valores no imputados. Esto se debe a que se le permite al modelo utilizar información generada razonablemente en lugar de desechar filas con valores faltantes.
 
-#### Graficos:
+#### Gráficos:
 
-```{r}
-source("./provided_functions.R")
+A continuación se presenta el gráfico comparando los tres datasets (Churn, Heart y Obesity) y las características que pueden ser útiles para realizar el experimento: El porcentaje de valores faltantes, la profundidad del árbol de decisión y métrica AUC, ambos con los valores imputados y no imputados.
+
+```{r echo=FALSE}
+
 knitr::include_graphics("./outputs/plots/exp_1.jpg")
 
 ```
@@ -38,7 +40,7 @@ Durante el experimento, observamos las siguientes tendencias:
 
 -   Impacto positivo y negativo de la imputación: Se observa que imputar los valores faltantes es beneficioso para el conjunto de datos de "Obesity", mientras que para el conjunto de datos de "Churn" el efecto es opuesto. En el caso de "Heart", el rendimiento del modelo es similar con o sin imputación.
 
-#### Conclusiones:
+#### Conclusión:
 
 Los resultados obtenidos en este experimento respaldan nuestras predicciones iniciales. A medida que la cantidad de valores faltantes aumenta, se observa una degradación en el rendimiento del modelo en todos los escenarios. Esto subraya la importancia de considerar la cantidad de valores faltantes al construir modelos predictivos.
 
