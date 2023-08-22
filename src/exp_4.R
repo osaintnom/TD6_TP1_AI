@@ -8,10 +8,10 @@ library(dplyr)    # For data manipulation
 PARALLELIZE <- TRUE # Set the option for parallelization of computations
 N_THREADS <- 30     # Define the number of threads for parallel processing
 N_BINS <- 10        # Define the number of bins for discretization
-RERUN_EXP <- FALSE   # Set the option to rerun the experiment
+RERUN_EXP <- TRUE   # Set the option to rerun the experiment
 
 # Load provided functions
-source("provided_functions.R")
+source("./provided_functions.R")
 
 #' Run an experiment to evaluate the performance of a predictive model under different conditions.
 #'
